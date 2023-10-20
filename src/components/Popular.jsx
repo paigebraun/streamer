@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 function Popular() {
     const [popularMovies, setPopularMovies] = useState([]);
@@ -18,7 +19,7 @@ function Popular() {
         async function fetchData() {
             let response = await fetch('https://api.themoviedb.org/3/movie/popular?language=en-US&page=1', options)
             response = await response.json();
-        
+            console.log(response.results);
             setPopularMovies(response.results);
         }
 
@@ -31,7 +32,7 @@ function Popular() {
         async function fetchTVData() {
             let response = await fetch('https://api.themoviedb.org/3/discover/tv?include_adult=false&include_null_first_air_dates=false&language=en-US&page=1&sort_by=popularity.desc&with_origin_country=US', options)
             response = await response.json();
-        
+            console.log('TV', response.results);
             setPopularTV(response.results);
         }
 
@@ -47,10 +48,12 @@ function Popular() {
                 <div className="flex flex-nowrap items-start">
                     {popularMovies.map((movie) => {
                         return (
-                            <button key={movie.id} className="relative max-w-[150px] w-max mr-5 text-left">
-                                <img className="h-56 rounded" src={`https://image.tmdb.org/t/p/original/${movie.poster_path}`}></img>
-                                <p className="text-white mt-1 max-h-12 overflow-hidden">{movie.title}</p>
-                            </button>
+                            <Link to={`/${movie.title.replace(/[&:']/g,'').replace(/-/g,'').replace(/[^a-zA-Z0-9]/g, '-').toLowerCase()}`} state={movie} key={movie.id}>
+                                <button className="relative max-w-[150px] w-max mr-5 text-left">
+                                    <img className="h-56 rounded" src={`https://image.tmdb.org/t/p/original/${movie.poster_path}`}></img>
+                                    <p className="text-white mt-1 max-h-12 overflow-hidden">{movie.title}</p>
+                                </button>
+                            </Link>
                         )
                     })}
                 </div>
@@ -61,10 +64,12 @@ function Popular() {
                 <div className="flex flex-nowrap items-start">
                     {popularTV.map((series) => {
                         return (
-                            <button key={series.id} className="relative max-w-[150px] w-max mr-5 text-left">
-                                <img className="h-56 rounded" src={`https://image.tmdb.org/t/p/original/${series.poster_path}`}></img>
-                                <p className="text-white mt-1 max-h-12 overflow-hidden">{series.name}</p>
-                            </button>
+                            <Link to={`/${series.name.replace(/[&:']/g,'').replace(/-/g,'').replace(/[^a-zA-Z0-9]/g, '-').toLowerCase()}`} state={series} key={series.id}>
+                                <button className="relative max-w-[150px] w-max mr-5 text-left">
+                                    <img className="h-56 rounded" src={`https://image.tmdb.org/t/p/original/${series.poster_path}`}></img>
+                                    <p className="text-white mt-1 max-h-12 overflow-hidden">{series.name}</p>
+                                </button>
+                            </Link>
                         )
                     })}
                 </div>

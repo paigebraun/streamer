@@ -1,19 +1,19 @@
-import { useState } from 'react'
+import { Route, Routes } from 'react-router-dom'
 
 import Header from './components/Header'
-import Featured from './components/Featured'
-import Popular from './components/Popular'
-import Watchlist from './components/Watchlist'
+import Home from './pages/Home'
+import Details from './pages/Details'
+
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <>
     <Header />
-    <Featured />
-    <Popular />
-    <Watchlist />
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/:id" element={<Details />} />
+    </Routes>
     </>
   )
 }
