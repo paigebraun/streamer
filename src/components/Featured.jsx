@@ -4,60 +4,84 @@ import paloAlto from '../assets/PaloAlto.png';
 import pines from '../assets/Pines.png';
 import freakyFriday from '../assets/FreakyFriday.png';
 
+import { Carousel } from 'flowbite-react';
+import { Link } from 'react-router-dom';
+
 function Featured() {
+
+    const featured_1 = {
+        "backdrop_path": "/wj2nLa0vfS0SLu2vJ6ABTRhMrok.jpg",
+        "id": 334541,
+        "overview": "After his older brother passes away, Lee Chandler is forced to return home to care for his 16-year-old nephew. There he is compelled to deal with a tragic past that separated him from his family and the community where he was born and raised.",
+        "poster_path": "/e8daDzP0vFOnGyKmve95Yv0D0io.jpg",
+        "release_date": "2016-11-18",
+        "runtime": 138,
+        "title": "Manchester by the Sea"
+    };
+
+    const featured_2 = {
+        "backdrop_path": "/1FuYF7BLs6a4LPGve7OjWEriMfP.jpg",
+        "id": 192132,
+        "overview": "Shy, sensitive April is the class virgin, torn between an illicit flirtation with her soccer coach Mr. B and an unrequited crush on sweet stoner Teddy. Emily, meanwhile, offers sexual favors to every boy to cross her path — including both Teddy and his best friend Fred, a live wire without filters or boundaries. As one high school party bleeds into the next — and April and Teddy struggle to admit their mutual affection — Fred's escalating recklessness starts to spiral into chaos.",
+        "poster_path": "/yjcwwYP3eSigxLKKVBoVVz85ZWv.jpg",
+        "release_date": "2013-12-29",
+        "runtime": 100,
+        "title": "Palo Alto"
+    }
+
+    const featured_3 = {
+        "backdrop_path": "/qnYwh0tGs0wvjkf7pGPr3TmVFh6.jpg",
+        "id": 97367,
+        "overview": "A motorcycle stunt rider considers committing a crime in order to provide for his wife and child, an act that puts him on a collision course with a cop-turned-politician.",
+        "poster_path": "/vY5j2xQzMGWmxBuhQo0HfA4Lxqb.jpg",
+        "release_date": "2013-03-14",
+        "runtime": 140,
+        "title": "The Place Beyond the Pines"
+    }
+
+    const featured_4 = {
+        "backdrop_path": "/gOlMx8kFIIUmYVRIKuLbaLhBJSZ.jpg",
+        "id": 10330,
+        "overview": "Mother and daughter bicker over everything -- what Anna wears, whom she likes and what she wants to do when she's older. In turn, Anna detests Tess's fiancé. When a magical fortune cookie switches their personalities, they each get a peek at how the other person feels, thinks and lives.",
+        "poster_path": "/ipKcZ4Up7dp18XpsfYUc9NKZy3g.jpg",
+        "release_date": "2003-08-05",
+        "runtime": 97,
+        "title": "Freaky Friday"
+    }
+    
     return (
-        <>
-        <div id="default-carousel" className="relative w-full" data-carousel="slide" data-carousel-interval="7000">
-            {/*Carousel wrapper*/}
-                <div className="relative h-64 overflow-hidden rounded-lg">
-                    {/*Item 1*/}
-                    <button className="hidden flex fixed justify-center duration-1000 ease-in-out bg-sea h-64" data-carousel-item>
-                        <img src={manchester} className="h-full absolute block -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="..."></img>
-                    </button>
-                    {/*Item 2*/}
-                    <button className="hidden flex fixed justify-center duration-1000 ease-in-out bg-palo h-64" data-carousel-item>
-                        <img src={paloAlto} className="h-full absolute block -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="..."></img>
-                    </button>
-                    {/*Item 3*/}
-                    <button className="hidden flex fixed justify-center duration-1000 ease-in-out bg-pine h-64" data-carousel-item>
-                        <img src={pines} className="h-full absolute block -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="..."></img>
-                    </button>
-                    {/*Item 4*/}
-                    <button className="hidden flex fixed justify-center duration-1000 ease-in-out bg-stone-100 h-64" data-carousel-item>
-                        <img src={freakyFriday} className="h-full absolute block -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="..."></img>
-                    </button>
-                </div>
-                <div className="bg-peach text-white p-2 px-4 z-30 absolute top-5 left-5 rounded-lg cursor-default">
-                    <p>Featured</p>
-                </div>
-            
-            {/*Slider indicators*/}
-            <div className="absolute z-30 flex space-x-3 -translate-x-1/2 bottom-5 left-1/2">
-                <button type="button" className="w-3 h-3 rounded-full" aria-current="true" aria-label="Slide 1" data-carousel-slide-to="0"></button>
-                <button type="button" className="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 2" data-carousel-slide-to="1"></button>
-                <button type="button" className="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 3" data-carousel-slide-to="2"></button>
-                <button type="button" className="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 4" data-carousel-slide-to="3"></button>
-            </div>
-            
-            {/*Slider controls*/}
-            <button type="button" className="absolute top-0 left-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
-                <span className="inline-flex items-center justify-center w-10 h-10 rounded-full group-hover:bg-white/50">
-                    <svg className="w-4 h-4 text-white dark:text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 1 1 5l4 4"/>
-                    </svg>
-                    <span className="sr-only">Previous</span>
-                </span>
+        <div className="relative">
+        <Carousel className="w-full h-64 overflow-hidden rounded-lg" slideInterval={7000}>
+            {/*Item 1*/}
+            <button className="hidden flex fixed justify-center bg-sea h-64">
+                <Link to={`/manchester-by-the-sea`} state={featured_1}>
+                <img src={manchester} className="h-full absolute block -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="Manchester By The Sea"></img>
+                </Link>
             </button>
-            <button type="button" className="absolute top-0 right-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-next>
-                <span className="inline-flex items-center justify-center w-10 h-10 rounded-full group-hover:bg-white/50">
-                    <svg className="w-4 h-4 text-white dark:text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 9 4-4-4-4"/>
-                    </svg>
-                    <span className="sr-only">Next</span>
-                </span>
+            {/*Item 2*/}
+            <button className="hidden flex fixed justify-center bg-palo h-64">
+                <Link to={`/palo-alto`} state={featured_2}>
+                <img src={paloAlto} className="h-full absolute block -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="Palo Alto"></img>
+                </Link>
             </button>
+            {/*Item 3*/}
+            <button className="hidden flex fixed justify-center bg-pine h-64">
+                <Link to={`/the-place-beyond-the-pines`} state={featured_3}>
+                <img src={pines} className="h-full absolute block -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="Place Beyond The Pines"></img>
+                </Link>
+            </button>
+            {/*Item 4*/}
+            <button className="hidden flex fixed justify-center bg-stone-100 h-64">
+                <Link to={`/freaky-friday`} state={featured_4}>
+                <img src={freakyFriday} className="h-full absolute block -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="Freaky Friday"></img>
+                </Link>
+            </button>
+        </Carousel>
+        <div className="bg-peach text-white p-2 px-4 z-30 absolute top-5 left-5 rounded-lg cursor-default">
+            <p>Featured</p>
         </div>
-        </>
+        </div>
+
     )
 }
 
