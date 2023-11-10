@@ -20,9 +20,11 @@ function SeriesDetails() {
     const [tvCast, setTVCast] = useState([]);
     const [tvVideos, setTVVideos] = useState([]);
     const [creator, setCreator] = useState([]);
-    const [watchTVProviders, setWatchTVProviders] = useState([]);
+    const [watchFlat, setWatchFlat] = useState([]);
+    const [watchBuyRent, setWatchBuyRent] = useState([]);
+    const [watchFree, setWatchFree] = useState([]);
 
-    //Fetch movie details of the current movie
+    //Fetch show details of the current show
     useEffect(()=> {
         async function fetchTVData() {
             let response = await fetch(`https://api.themoviedb.org/3/tv/${series.id}?append_to_response=videos%2Ccredits&language=en-US`, options)
@@ -31,17 +33,37 @@ function SeriesDetails() {
             setCreator(response.created_by);
             setTVCast(response.credits.cast);
             setTVVideos(response.videos.results[0]);
+            console.log(response.videos.results)
         }
 
         async function fetchTVWatchData() {
             let watchResponse = await fetch(`https://api.themoviedb.org/3/tv/${series.id}/watch/providers`, options)
             watchResponse = await watchResponse.json()
-            setWatchTVProviders(watchResponse.results.US);
             console.log(watchResponse.results.US);
+            if (watchResponse.results.US.flatrate != undefined) {
+                setWatchFlat(watchResponse.results.US.flatrate);
+            } else {
+                setWatchFlat([]);
+            }
+
+            if (watchResponse.results.US.buy != undefined) {
+                setWatchBuyRent(watchResponse.results.US.buy);
+            } else if ((watchResponse.results.US.buy == undefined) && (watchResponse.results.US.rent != undefined)) {
+                setWatchBuyRent(watchResponse.results.US.rent);
+            } else {
+                setWatchBuyRent([]);
+            }
+
+            if (watchResponse.results.US.free != undefined) {
+                setWatchFree(watchResponse.results.US.free);
+            } else {
+                setWatchFree([]);
+            }
         }
 
         fetchTVData()
         fetchTVWatchData()
+
     }, []);
     
 
@@ -63,7 +85,17 @@ function SeriesDetails() {
                 <h3 className="text-white font-bold mt-6">Synopsis</h3>
                 <p className="text-white">{series.overview}</p>
                 <h3 className="text-white font-bold mt-6">Where To Watch</h3>
-                <p className="text-white">Put streaming logos here.</p>
+                <div className="flex flex-wrap gap-4">
+                            {watchFlat.map((flatrate) => {
+                                return (<img key={flatrate.provider_id} className="rounded h-16" src={`https://image.tmdb.org/t/p/original/${flatrate.logo_path}`}></img>)
+                            })}
+                            {watchBuyRent.map((buyRent) => {
+                                return (<img key={buyRent.provider_id} className="rounded h-16" src={`https://image.tmdb.org/t/p/original/${buyRent.logo_path}`}></img>)
+                            })}
+                            {watchFree.map((free) => {
+                                return (<img key={free.provider_id} className="rounded h-16" src={`https://image.tmdb.org/t/p/original/${free.logo_path}`}></img>)
+                            })}
+                </div>
                 <h3 className="text-white font-bold mt-6">Trailer</h3>
 
                 <div className="relative h-max w-max mt-1">

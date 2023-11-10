@@ -19,7 +19,6 @@ function Popular() {
         async function fetchData() {
             let response = await fetch('https://api.themoviedb.org/3/movie/popular?language=en-US&page=1', options)
             response = await response.json();
-            console.log(response.results);
             setPopularMovies(response.results);
         }
 
@@ -32,7 +31,6 @@ function Popular() {
         async function fetchTVData() {
             let response = await fetch('https://api.themoviedb.org/3/discover/tv?include_adult=false&include_null_first_air_dates=false&language=en-US&page=1&sort_by=popularity.desc&with_origin_country=US', options)
             response = await response.json();
-            console.log('TV', response.results);
             setPopularTV(response.results);
         }
 
