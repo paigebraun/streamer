@@ -7,6 +7,8 @@ function MovieDetails() {
     const location = useLocation();
     const movie = location.state;
 
+    let watchProviders = [];
+
     //Convert minutes to hours and minutes
     function toHoursAndMinutes(totalMinutes) {
         const hours = Math.floor(totalMinutes / 60);
@@ -27,9 +29,7 @@ function MovieDetails() {
     const [cast, setCast] = useState([]);
     const [crew, setCrew] = useState([]);
     const [videos, setVideos] = useState([]);
-    const [watchFlat, setWatchFlat] = useState([]);
-    const [watchBuyRent, setWatchBuyRent] = useState([]);
-    const [watchFree, setWatchFree] = useState([]);
+    const [watchMovie, setWatchMovie] = useState([]);
 
     //Fetch movie details of the current movie
     useEffect(() => {
@@ -45,25 +45,32 @@ function MovieDetails() {
         async function fetchWatchData() {
             let watchResponse = await fetch(`https://api.themoviedb.org/3/movie/${movie.id}/watch/providers`, options)
             watchResponse = await watchResponse.json()
-            if (watchResponse.results.US.flatrate != undefined) {
-                setWatchFlat(watchResponse.results.US.flatrate);
-            } else {
-                setWatchFlat([]);
-            }
+            console.log('watchResponse', watchResponse);
+            let ads = watchResponse.results.US.ads;
+            let flatrate = watchResponse.results.US.flatrate;
+            let buy = watchResponse.results.US.buy;
+            let rent = watchResponse.results.US.rent;
+            let free = watchResponse.results.US.free;
 
-            if (watchResponse.results.US.buy != undefined) {
-                setWatchBuyRent(watchResponse.results.US.buy);
-            } else if ((watchResponse.results.US.buy == undefined) && (watchResponse.results.US.rent != undefined)) {
-                setWatchBuyRent(watchResponse.results.US.rent);
-            } else {
-                setWatchBuyRent([]);
+            if (ads != undefined) {
+                ads.map((ads) => watchProviders.push(ads));
             }
+            if (flatrate != undefined) {
+                flatrate.map((flatrate) => watchProviders.push(flatrate));
+            }
+            if (buy != undefined) {
+                buy.map((buy) => watchProviders.push(buy));
+            }
+            if (rent != undefined) {
+                rent.map((rent) => watchProviders.push(rent));
+            }
+            if (free != undefined) {
+                free.map((free) => watchProviders.push(free));
+            }
+            
+            let filtered = watchProviders.filter((v,i,a)=>a.findIndex(v2=>(v2.provider_id===v.provider_id))===i)
 
-            if (watchResponse.results.US.free != undefined) {
-                setWatchFree(watchResponse.results.US.free);
-            } else {
-                setWatchFree([]);
-            }
+            setWatchMovie(filtered);
         }
 
         fetchData()
@@ -89,25 +96,27 @@ function MovieDetails() {
                         <h3 className="text-white font-bold mt-6">Synopsis</h3>
                         <p className="text-white">{movie.overview}</p>
                         <h3 className="text-white font-bold mt-6">Where To Watch</h3>
-                        <div className="flex flex-wrap gap-4">
-                            {watchFlat.map((flatrate) => {
-                                return (<img key={flatrate.provider_id} className="rounded h-16" src={`https://image.tmdb.org/t/p/original/${flatrate.logo_path}`}></img>)
-                            })}
-                            {watchBuyRent.map((buyRent) => {
-                                return (<img key={buyRent.provider_id} className="rounded h-16" src={`https://image.tmdb.org/t/p/original/${buyRent.logo_path}`}></img>)
-                            })}
-                            {watchFree.map((free) => {
-                                return (<img key={free.provider_id} className="rounded h-16" src={`https://image.tmdb.org/t/p/original/${free.logo_path}`}></img>)
-                            })}
-                        </div>
-                        <h3 className="text-white font-bold mt-6">Trailer</h3>
+                        {watchMovie.length != 0 ? (
+                            <div className="flex flex-wrap gap-4">
+                                {watchMovie.map((watch) => {
+                                    return (<img key={watch.provider_id} className="rounded h-16" src={`https://image.tmdb.org/t/p/original/${watch.logo_path}`}></img>)
+                                })}
+                            </div>
+                            ) : <p className="text-white">Currently this title is not available to stream.</p>
+                            }
+                        { videos != null ? (
+                            <>
+                            <h3 className="text-white font-bold mt-6">Trailer</h3>
 
-                        <div className="relative h-max w-max mt-1">
-                            <a href={`https://www.youtube.com/watch?v=${videos.key}`} target="_blank">
-                                <img className="w-20 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" src={playBtn}></img>
-                                <img className="w-80 block rounded" src={`http://img.youtube.com/vi/${videos.key}/0.jpg`}></img>
-                            </a>
-                        </div>
+                            <div className="relative h-max w-max mt-1">
+                                <a href={`https://www.youtube.com/watch?v=${videos.key}`} target="_blank">
+                                    <img className="w-20 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" src={playBtn}></img>
+                                    <img className="w-80 block rounded"src={`http://img.youtube.com/vi/${videos.key}/0.jpg`}></img>
+                                </a>
+                            </div>
+                            </>
+                            )   : null
+                        }
 
                         <h3 className="text-white font-bold mt-6">Directors</h3>
                         <ul>
