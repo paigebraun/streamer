@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import Lottie from 'lottie-react';
+import logoLoad from '../assets/logoLoad.json'
 
 function Popular() {
     const [popularMovies, setPopularMovies] = useState([]);
     const [popularTV, setPopularTV] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     //Utilizing The Movie Database API
     const options = {
@@ -16,30 +19,35 @@ function Popular() {
 
     //Fetch popular movies and store them in popularMovies array
     useEffect(()=> {
+        setIsLoading(true);
         async function fetchData() {
             let response = await fetch('https://api.themoviedb.org/3/movie/popular?language=en-US&page=1', options)
             response = await response.json();
             setPopularMovies(response.results);
+            fetchTVData()
         }
-
-        fetchData()
-        
-    }, []);
-
-    //Fetch popular tv and store them in popularTV array
-    useEffect(()=> {
         async function fetchTVData() {
             let response = await fetch('https://api.themoviedb.org/3/discover/tv?include_adult=false&include_null_first_air_dates=false&language=en-US&page=1&sort_by=popularity.desc&with_origin_country=US', options)
+            setIsLoading(true);
             response = await response.json();
             setPopularTV(response.results);
+            setIsLoading(false);
         }
-
-        fetchTVData()
+        fetchData()
         
-    }, []);
+        
 
+    }, []);
       
     return (
+     <>
+        {isLoading ? 
+        <div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-neutral-900 z-20 w-full h-full'>
+            <div className='w-20 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 '>
+                <Lottie animationData={logoLoad} loop={true}></Lottie>
+            </div>
+        </div> 
+        : 
         <>
         <h1 className="my-5 text-white text-4xl font-bold">Popular Movies</h1>
             <div className="flex overflow-x-auto">
@@ -73,6 +81,8 @@ function Popular() {
                 </div>
             </div>
         </>
+    }
+    </>
     )
 }
 

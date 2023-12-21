@@ -77,7 +77,7 @@ function Featured() {
                 </Link>
             </button>
         </Carousel>
-        <div className="bg-peach text-white p-2 px-4 z-30 absolute top-5 left-5 rounded-lg cursor-default">
+        <div className="bg-peach text-white p-2 px-4 z-10 absolute top-5 left-5 rounded-lg cursor-default">
             <p>Featured</p>
         </div>
         </div>
