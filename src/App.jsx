@@ -1,20 +1,16 @@
 import { Route, Routes } from 'react-router-dom'
-import logoLoad from './assets/logoLoad.json';
-import Lottie from 'lottie-react';
 
-import Header from './components/Header'
 import Home from './pages/Home'
 import Details from './pages/Details'
 import Results from './pages/Results'
+import Login from './pages/Login'
+import SignUp from './pages/SignUp'
 
 
 function App() {
 
   return (
     <>
-
-
-      <Header />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/:id" element={<Details />} />
@@ -22,6 +18,8 @@ function App() {
           <Route index element={<Results />} />
           <Route path=":id" element={<Results />} />
         </Route>
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} />
       </Routes>
     </>
   )

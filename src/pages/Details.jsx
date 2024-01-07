@@ -2,6 +2,7 @@ import { useLocation } from "react-router-dom"
 import { useEffect } from "react";
 
 //import components
+import Header from "../components/Header";
 import SeriesDetails from "../components/SeriesDetails";
 import MovieDetails from "../components/MovieDetails";
 
@@ -14,12 +15,18 @@ function Details() {
     if (location.state.hasOwnProperty('name')) {
         //It's a TV show
         return (
+            <>
+            <Header />
             <SeriesDetails />
+            </>
         )
     } else {
         //It's a movie
         return (
+            <>
+            <Header />
             <MovieDetails />
+            </>
         )
     }
 }

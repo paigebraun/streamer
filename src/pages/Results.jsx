@@ -1,6 +1,8 @@
 import { useParams, Link } from "react-router-dom"
 import { useEffect, useState } from "react";
 
+import Header from "../components/Header";
+
 function Results() {
     const { id } = useParams();
     const [searchResults, setSearchResults] = useState([]);
@@ -33,6 +35,7 @@ function Results() {
     
     return (
         <>
+        <Header />
         <button className={`rounded px-4 py-1 mr-2 ${active === 'Movies' ? 'bg-peach text-white' : 'bg-gray-200 text-gray-400'}`}
         onClick={() => setActive('Movies')}>Movies</button>
         <button className={`rounded px-4 py-1 mr-2 ${active === 'TV' ? 'bg-peach text-white' : 'bg-gray-200 text-gray-400'}`}
