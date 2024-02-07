@@ -5,7 +5,6 @@ function SearchBar() {
     const navigate = useNavigate();
 
     const [searchQuery, setSearchQuery] = useState('');
-    const [searchResults, setSearchResults] = useState([]);
 
     function handleSearch(event) {
         event.preventDefault();

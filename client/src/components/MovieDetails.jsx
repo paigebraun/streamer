@@ -1,11 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useLocation } from "react-router-dom";
 import playBtn from "../assets/play.svg"
+import { useUser } from './UserContext';
+
 
 function MovieDetails() {
 
     const location = useLocation();
     const movie = location.state;
+    const { updateUser, username } = useUser();
+
 
     let watchProviders = [];
 
@@ -78,6 +82,49 @@ function MovieDetails() {
 
     }, []);
 
+    //Add movie to user's watchlist
+    const [isAdding, setIsAdding] = useState(false);
+
+    const addToWatchlist = useCallback(async (movie) => {
+        setIsAdding(true);
+        const movieId = movie.id;
+        const title = movie.title;
+        const posterPath = movie.poster_path;
+
+        console.log('movie details user:', username);
+    
+        try {
+            const response = await fetch('http://localhost:3000/user/watchlist/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+                body: JSON.stringify({
+                    username,
+                    movieId,
+                    title,
+                    posterPath,
+                }),
+            });
+    
+            const data = await response.json();
+    
+            if (response.ok) {
+                console.log('adding to watchlist', data);
+                updateUser({ loggedIn: true, username: username, watchlist: data.watchlist }); // Update user data in your app state after watchlist change
+            } else {
+                console.error(data.error);
+            }
+        } catch (error) {
+            console.error('Add to watchlist error:', error);
+        } finally {
+            setIsAdding(false);
+        }
+    }, [setIsAdding, updateUser, username]);
+    
+
+
     return (
         <>
             <div className="relative">
@@ -88,7 +135,7 @@ function MovieDetails() {
                 <div className="grid grid-cols-3 mx-10 absolute top-40">
                     <div className="col-span-1 flex flex-col flex-wrap content-center px-8">
                         <img className="h-fit w-fit rounded max-h-96" src={`https://image.tmdb.org/t/p/original/${movie.poster_path}`}></img>
-                        <button className="text-white bg-peach rounded py-2 mt-6">Add To Watchlist</button>
+                        <button className="text-white bg-peach rounded py-2 mt-6" onClick={() => addToWatchlist(movie)}>Add To Watchlist</button>
                     </div>
                     <div className="col-span-2 mt-20 mb-10">
                         <h1 className="text-white text-5xl font-bold">{movie.title}</h1>
