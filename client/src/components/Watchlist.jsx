@@ -27,7 +27,7 @@ function Watchlist() {
                 // Update the user context with the watchlist data
                 updateUser({
                     loggedIn: true,
-                    username: data.username, 
+                    username: data.username,
                     watchlist: data.watchlist,
                 });
             } else {
@@ -48,32 +48,39 @@ function Watchlist() {
     return (
         <>
             <h1 className="my-5 text-white text-4xl font-bold">Watchlist</h1>
-            <div className="flex item-center justify-center">
+            <div className={`flex items-center ${watchlist.length !==0 ? 'justify-start' : 'justify-center'} pb-8`}>
                 {loggedIn ? (
                     watchlist.length !== 0 ? (
                         <div className="flex overflow-x-auto">
                             <div className="flex flex-nowrap items-start">
-                                {watchlist.map((movie) => {
+                                {watchlist.map((item) => {
                                     return (
-                                        <Link to={`/${movie.title.replace(/[&:']/g, '').replace(/-/g, '').replace(/[^a-zA-Z0-9]/g, '-').toLowerCase()}`} state={movie} key={movie.movieId}>
+                                        <Link
+                                            to={`/${item.title?.replace(/[&:']/g,'').replace(/-/g,'').replace(/[^a-zA-Z0-9]/g, '-').toLowerCase()}`}
+                                            state={item}
+                                            key={item.id}
+                                        >
                                             <button className="relative max-w-[150px] w-max mr-5 text-left">
-                                                <img className="h-56 rounded" src={`https://image.tmdb.org/t/p/original/${movie.posterPath}`} alt={movie.title} />
-                                                <p className="text-white mt-1 max-h-12 overflow-hidden">{movie.title}</p>
+                                                <img className="h-56 rounded" src={`https://image.tmdb.org/t/p/original/${item.poster_path}`}></img>
+                                                <p className="text-white mt-1 max-h-12 overflow-hidden">{item.title || item.name}</p>
                                             </button>
                                         </Link>
-                                    )
+                                    );
                                 })}
                             </div>
                         </div>
                     ) : (
-                        <p className="text-white font-bold text-2xl mt-10 mb-32">Add movies to your watchlist and they will show up here.</p>
+                        <p className="text-white font-bold text-2xl mt-10 mb-32">Add movies or series to your watchlist, and they will show up here.</p>
                     )
                 ) : (
-                    <p className="text-white font-bold text-2xl mt-10 mb-32"><button onClick={routeChange} className="text-peach hover:underline">Sign in</button> to see your watchlist</p>
+                    <p className="text-white font-bold text-2xl mt-10 mb-32">
+                        <button onClick={routeChange} className="text-peach hover:underline">Sign in</button> to see your watchlist
+                    </p>
                 )}
             </div>
         </>
-    )
+    );
 }
 
 export default Watchlist;
+

@@ -51,7 +51,7 @@ function Header() {
                     <svg className="h-6 w-6 text-white z-20 pointer-events-none" fill="currentColor" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                     </svg>
-                    <p className="text-white text-xl px-2 z-20 pointer-events-none">{username}</p>
+                    <p className="text-white text-lg px-2 z-20 pointer-events-none">{username}</p>
 
                     <div className="opacity-0 hover:opacity-100 pt-12 px-4 absolute w-full min-w-36 z-10 -top-2 right-0 flex flex-col p-2 items-center bg-zinc-800 rounded">
                         <button className="px-8 w-full py-2 m-2 text-xl rounded-lg text-white bg-peach hover:bg-peach-dark" onClick={logout}>Logout</button>

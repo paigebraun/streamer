@@ -34,16 +34,19 @@ function MovieDetails() {
     const [crew, setCrew] = useState([]);
     const [videos, setVideos] = useState([]);
     const [watchMovie, setWatchMovie] = useState([]);
+    const [releaseDate, setReleaseDate] = useState("");
 
     //Fetch movie details of the current movie
     useEffect(() => {
         async function fetchData() {
+            console.log('moviedetails movie', movie);
             let response = await fetch(`https://api.themoviedb.org/3/movie/${movie.id}?append_to_response=videos%2Ccredits&language=en-US`, options)
             response = await response.json();
             setMovieDetails(response);
             setCast(response.credits.cast);
             setCrew(response.credits.crew);
             setVideos(response.videos.results.find((item) => item.type == 'Trailer'));
+            setReleaseDate(response.release_date);
         }
 
         async function fetchWatchData() {
@@ -87,9 +90,6 @@ function MovieDetails() {
 
     const addToWatchlist = useCallback(async (movie) => {
         setIsAdding(true);
-        const movieId = movie.id;
-        const title = movie.title;
-        const posterPath = movie.poster_path;
 
         console.log('movie details user:', username);
     
@@ -102,9 +102,7 @@ function MovieDetails() {
                 credentials: 'include',
                 body: JSON.stringify({
                     username,
-                    movieId,
-                    title,
-                    posterPath,
+                    movie,
                 }),
             });
     
@@ -139,7 +137,7 @@ function MovieDetails() {
                     </div>
                     <div className="col-span-2 mt-20 mb-10">
                         <h1 className="text-white text-5xl font-bold">{movie.title}</h1>
-                        <p className="text-white">{`${movie.release_date.slice(0, 4)} · ${toHoursAndMinutes(movieDetails.runtime)}`}</p>
+                        <p className="text-white">{`${releaseDate.slice(0, 4)} · ${toHoursAndMinutes(movieDetails.runtime)}`}</p>
                         <h3 className="text-white font-bold mt-6">Synopsis</h3>
                         <p className="text-white">{movie.overview}</p>
                         <h3 className="text-white font-bold mt-6">Where To Watch</h3>

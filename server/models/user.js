@@ -8,22 +8,7 @@ const userSchema = new Schema({
 
 	username: { type: String, unique: false, required: false },
 	password: { type: String, unique: false, required: false },
-	watchlist: [
-		{
-		  movieId: {
-			type: Number,
-			required: true,
-		  },
-		  title: {
-			type: String,
-			required: true,
-		  },
-		  posterPath: {
-			type: String,
-			required: true,
-		  },
-		},
-	  ],
+	watchlist: [],
 })
 
 // Define schema methods

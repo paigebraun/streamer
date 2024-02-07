@@ -122,9 +122,9 @@ router.post('/logout', (req, res) => {
     }
 });
 
-// Add movie to current user's watchlist
+// Add movie or series to current user's watchlist
 router.post('/watchlist/add', async (req, res) => {
-    const { username, movieId, title, posterPath } = req.body;
+    const { username, movie, series } = req.body;
   
     try {
         const user = await User.findOne({ username: username });
@@ -132,9 +132,18 @@ router.post('/watchlist/add', async (req, res) => {
         if (!user) {
             return res.status(404).json({ error: 'User not found' });
         }
-  
-        if (!user.watchlist.some(movie => movie.movieId === movieId)) {
-            user.watchlist.push({ movieId, title, posterPath });
+
+        // Check if the movie or series is already in the watchlist
+        if (!user.watchlist.some(item => item.id === (movie ? movie.id : series ? series.id : undefined))) {
+            // Decide whether to add a movie or a series based on the presence of 'movie' or 'series' in the request
+            if (movie) {
+                user.watchlist.push({ ...movie });
+            } else if (series) {
+                user.watchlist.push({ ...series });
+            } else {
+                return res.status(400).json({ error: 'Invalid request. Please provide either a movie or series object.' });
+            }
+
             await user.save();
   
             // Fetch the updated user to get the latest watchlist
@@ -143,7 +152,7 @@ router.post('/watchlist/add', async (req, res) => {
             req.logIn(updatedUser._id, function (error) {
                 if (!error) {
                     return res.status(200).json({
-                        message: 'Movie added to watchlist successfully',
+                        message: 'Item added to watchlist successfully',
                         watchlist: updatedUser.watchlist, // Include the updated watchlist in the response
                     });
                 } else {
@@ -152,12 +161,13 @@ router.post('/watchlist/add', async (req, res) => {
                 }
             });
         } else {
-            return res.status(400).json({ error: 'Movie already in watchlist' });
+            return res.status(400).json({ error: 'Item already in watchlist' });
         }
     } catch (error) {
         console.error(error);
         return res.status(500).json({ error: 'Internal server error' });
     }
 });
+
 
 module.exports = router
