@@ -169,5 +169,53 @@ router.post('/watchlist/add', async (req, res) => {
     }
 });
 
+// Remove movie or series from current user's watchlist
+router.post('/watchlist/remove', async (req, res) => {
+    const { username, movieId, seriesId } = req.body;
+
+    try {
+        const user = await User.findOne({ username: username });
+
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        // Determine whether to remove a movie or a series based on the presence of 'movieId' or 'seriesId' in the request
+        const itemIdToRemove = movieId || seriesId;
+        if (itemIdToRemove) {
+            // Check if the item is in the watchlist
+            const itemIndex = user.watchlist.findIndex(item => item.id === itemIdToRemove);
+
+            if (itemIndex !== -1) {
+                // Remove the item from the watchlist
+                user.watchlist.splice(itemIndex, 1);
+                await user.save();
+
+                // Fetch the updated user to get the latest watchlist
+                const updatedUser = await User.findOne({ username: username });
+
+                req.logIn(updatedUser._id, function (error) {
+                    if (!error) {
+                        return res.status(200).json({
+                            message: 'Item removed from watchlist successfully',
+                            watchlist: updatedUser.watchlist, // Include the updated watchlist in the response
+                        });
+                    } else {
+                        console.error(error);
+                        return res.status(500).json({ error: 'Error updating session after watchlist update' });
+                    }
+                });
+            } else {
+                return res.status(400).json({ error: 'Item not found in watchlist' });
+            }
+        } else {
+            return res.status(400).json({ error: 'Invalid request. Please provide either a movieId or seriesId.' });
+        }
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
 
 module.exports = router
