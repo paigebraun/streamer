@@ -61,7 +61,9 @@ function Watchlist() {
                                             key={item.id}
                                         >
                                             <button className="relative max-w-[150px] w-max mr-5 text-left">
-                                                <img className="h-56 rounded" src={`https://image.tmdb.org/t/p/original/${item.poster_path}`}></img>
+                                                <div className="relative h-56 rounded overflow-hidden">
+                                                    <img className="h-56 rounded hover:scale-110 transition duration-150 ease-out hover:ease-in" src={`https://image.tmdb.org/t/p/original/${item.poster_path}`}></img>
+                                                </div>
                                                 <p className="text-white mt-1 max-h-12 overflow-hidden">{item.title || item.name}</p>
                                             </button>
                                         </Link>

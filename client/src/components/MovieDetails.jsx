@@ -2,14 +2,14 @@ import { useEffect, useState, useCallback } from "react";
 import { useLocation } from "react-router-dom";
 import playBtn from "../assets/play.svg"
 import { useUser } from './UserContext';
+import  {motion } from 'framer-motion';
 
 
 function MovieDetails() {
 
     const location = useLocation();
     const movie = location.state;
-    const { updateUser, username } = useUser();
-
+    const { updateUser, username, watchlist, loggedIn } = useUser();
 
     let watchProviders = [];
 
@@ -19,6 +19,24 @@ function MovieDetails() {
         const minutes = totalMinutes % 60;
         return `${hours}h${minutes > 0 ? ` ${minutes}m` : ""}`;
     }
+
+    // Check if the movie is in the watchlist
+    const isInWatchlist = watchlist.some((item) => item.id === movie.id);
+
+    // Conditional styling based on whether the movie is in the watchlist
+    const buttonColor = isInWatchlist ? 'bg-zinc-600' : 'bg-peach';
+
+    // Toggle watchlist button
+    const watchlistButtonText = isInWatchlist ? "Remove from Watchlist" : "Add to Watchlist";
+
+    // Add or remove movie from watchlist based on the current state
+    const handleWatchlistToggle = () => {
+        if (isInWatchlist) {
+            removeFromWatchlist(movie);
+        } else {
+            addToWatchlist(movie);
+        }
+    };
 
     //Utilizing The Movie Database API
     const options = {
@@ -120,6 +138,31 @@ function MovieDetails() {
             setIsAdding(false);
         }
     }, [setIsAdding, updateUser, username]);
+
+    // Remove a movie from watchlist
+    const removeFromWatchlist = async () => {
+        try {
+            const response = await fetch('http://localhost:3000/user/watchlist/remove', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    username: username,
+                    movieId: movie.id,
+                }),
+            });
+
+            const data = await response.json();
+            console.log(data); // Log response from the server
+
+            // Update user info with new watchlist
+            updateUser({ loggedIn: true, username: username, watchlist: data.watchlist });
+        } catch (error) {
+            // Handle error
+            console.error('Error removing from watchlist:', error)
+        }
+    };
     
 
 
@@ -133,7 +176,14 @@ function MovieDetails() {
                 <div className="grid grid-cols-3 mx-10 absolute top-40">
                     <div className="col-span-1 flex flex-col flex-wrap content-center px-8">
                         <img className="h-fit w-fit rounded max-h-96" src={`https://image.tmdb.org/t/p/original/${movie.poster_path}`}></img>
-                        <button className="text-white bg-peach rounded py-2 mt-6" onClick={() => addToWatchlist(movie)}>Add To Watchlist</button>
+                        {loggedIn && (
+                        <motion.button 
+                            whileHover={{ scale: 1.08 }}
+                            whileTap={{ scale: 0.9 }}
+                            className={`text-white rounded py-2 mt-6 ${buttonColor}`} 
+                            onClick={handleWatchlistToggle}>{watchlistButtonText}
+                        </motion.button>
+                        )}
                     </div>
                     <div className="col-span-2 mt-20 mb-10">
                         <h1 className="text-white text-5xl font-bold">{movie.title}</h1>
