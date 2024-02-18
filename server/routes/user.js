@@ -18,60 +18,81 @@ const isAuthenticated = (req, res, next) => {
 router.post('/', async (req, res) => {
     console.log('user signup');
     console.log(req.body);
-    const { username, password } = req.body
+    const { username, password } = req.body;
     console.log('username:', username);
 
     try {
-        const user = await User.findOne({ username: username });
-    
-        if (user) {
-            return res.json({
-                error: `Sorry, already a user with the username: ${username}`
+        // Add a check for an empty or whitespace-only username
+        if (!username || username.trim() === '') {
+            return res.status(400).json({
+                error: 'Username cannot be empty',
             });
         }
-    
+
+        const existingUser = await User.findOne({ username: username });
+
+        if (existingUser) {
+            return res.status(400).json({
+                error: `Username already exists`,
+            });
+        }
+
+        // Add a check for an empty password
+        if (!password || password.trim() === '') {
+            return res.status(400).json({
+                error: 'Password cannot be empty',
+            });
+        }
+
         const newUser = new User({
             username: username,
             password: password,
             watchlist: [],
         });
         console.log('new user', newUser);
-    
+
         const savedUser = await newUser.save();
         res.json(savedUser);
     } catch (err) {
         console.log('User.js post error: ', err);
-        res.json(err);
-    }
-})
-
-// User login route
-router.post('/login', passport.authenticate('local'), async (req, res) => {
-    try {
-        const user = req.user;
-
-        if (!user) {
-            return res.status(404).json({ error: 'User not found' });
-        }
-
-        // Fetch the complete user object, including the watchlist
-        const updatedUser = await User.findById(user._id);
-
-        req.logIn(updatedUser, function (error) {
-            if (error) {
-            console.error('Error logging in:', error);
-            return res.status(500).json({ error: 'Internal server error' });
-            }
-
-            // Send the user object with the watchlist in the response
-            res.json(updatedUser);
-        });
-    } catch (error) {
-        console.error('Error fetching user after login:', error);
-        res.status(500).json({ error: 'Internal server error' });
+        res.status(500).json(err);
     }
 });
+
+
+// User login route
+router.post('/login', (req, res) => {
+    passport.authenticate('local', async (err, user, info) => {
+      try {
+        if (err) {
+          console.error('Error during login:', err);
+          return res.status(500).json({ error: 'Internal server error' });
+        }
   
+        if (!user) {
+          console.error('Login failed. Reason:', info.message || 'Unknown reason');
+          return res.status(401).json({ error: info.message || 'Login failed' });
+        }
+  
+        // Fetch the complete user object, including the watchlist
+        const updatedUser = await User.findById(user._id);
+  
+        req.logIn(updatedUser, function (error) {
+          if (error) {
+            console.error('Error logging in:', error);
+            return res.status(500).json({ error: 'Internal server error' });
+          }
+          // Send the user object with the watchlist in the response
+          res.json(updatedUser);
+        });
+      } catch (error) {
+        console.error('Error during login:', error);
+        res.status(500).json({ error: 'Internal server error' });
+      }
+    })(req, res);
+  });
+  
+
 // Get current user
 router.get('/', isAuthenticated, (req, res, next) => {
     console.log('===== user!!======')
@@ -182,6 +203,7 @@ router.post('/watchlist/remove', async (req, res) => {
 
         // Determine whether to remove a movie or a series based on the presence of 'movieId' or 'seriesId' in the request
         const itemIdToRemove = movieId || seriesId;
+        console.log('id to remove', itemIdToRemove);
         if (itemIdToRemove) {
             // Check if the item is in the watchlist
             const itemIndex = user.watchlist.findIndex(item => item.id === itemIdToRemove);

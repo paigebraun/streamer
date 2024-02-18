@@ -16,6 +16,7 @@ export default {
         'peach' : {
           DEFAULT: '#F05C5C',
           dark: '#EC3939',
+          light: '#FF8080',
         },
         'sea' : {
           DEFAULT: '#D2E7EA',

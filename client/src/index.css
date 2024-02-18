@@ -7,3 +7,8 @@
   margin-right: 20px;
   box-sizing: border-box;
 }
+
+:root {
+  --toastify-color-success: #F05C5C;
+  --toastify-toast-background: #F05C5C;
+}

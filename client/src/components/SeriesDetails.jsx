@@ -2,6 +2,8 @@ import { useEffect, useState, useCallback } from "react";
 import { useLocation } from "react-router-dom";
 import playBtn from "../assets/play.svg"
 import { useUser } from './UserContext';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { motion } from 'framer-motion';
 
 function SeriesDetails() {
@@ -16,7 +18,7 @@ function SeriesDetails() {
     const isInWatchlist = watchlist.some((item) => item.id === series.id);
 
     // Conditional styling based on whether the series is in the watchlist
-    const buttonColor = isInWatchlist ? 'bg-zinc-600' : 'bg-peach';
+    const buttonColor = isInWatchlist ? 'bg-zinc-600 hover:bg-zinc-700' : 'bg-peach hover:bg-peach-dark';
 
     // Toggle watchlist button
     const watchlistButtonText = isInWatchlist ? "Remove from Watchlist" : "Add to Watchlist";
@@ -93,10 +95,7 @@ function SeriesDetails() {
     }, []);
 
     //Add series to user's watchlist
-    const [isAdding, setIsAdding] = useState(false);
-
     const addToWatchlist = useCallback(async (series) => {
-        setIsAdding(true);
 
         console.log('series details user:', username);
     
@@ -118,15 +117,17 @@ function SeriesDetails() {
             if (response.ok) {
                 console.log('adding to watchlist', data);
                 updateUser({ loggedIn: true, username: username, watchlist: data.watchlist }); // Update user data in your app state after watchlist change
+                
+                // Display success toast
+                toast.success('Successfully added to your watchlist!');
+            
             } else {
                 console.error(data.error);
             }
         } catch (error) {
             console.error('Add to watchlist error:', error);
-        } finally {
-            setIsAdding(false);
         }
-    }, [setIsAdding, updateUser, username]);
+    }, [updateUser, username]);
 
     // Remove series from watchlist
     const removeFromWatchlist = async () => {
@@ -138,7 +139,7 @@ function SeriesDetails() {
                 },
                 body: JSON.stringify({
                     username: username,
-                    seriesID: series.id,
+                    seriesId: series.id,
                 }),
             });
 
@@ -156,6 +157,7 @@ function SeriesDetails() {
 
     return (
     <>
+        <ToastContainer theme="colored" position="bottom-right" />
         <div className="relative">
             <div className="relative h-96 overflow-hidden rounded">
                 <img className="absolute w-full" src={`https://image.tmdb.org/t/p/original/${series.backdrop_path}`}></img>

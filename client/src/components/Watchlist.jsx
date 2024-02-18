@@ -56,7 +56,7 @@ function Watchlist() {
                                 {watchlist.map((item) => {
                                     return (
                                         <Link
-                                            to={`/${item.title?.replace(/[&:']/g,'').replace(/-/g,'').replace(/[^a-zA-Z0-9]/g, '-').toLowerCase()}`}
+                                            to={`/${item.title ? item.title.replace(/[&:']/g, '').replace(/-/g, '').replace(/[^a-zA-Z0-9]/g, '-').toLowerCase() : item.name.replace(/[&:']/g, '').replace(/-/g, '').replace(/[^a-zA-Z0-9]/g, '-').toLowerCase()}`}
                                             state={item}
                                             key={item.id}
                                         >

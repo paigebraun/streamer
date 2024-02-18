@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
 //import assets
 import Logo from '../assets/StreamerLogo.svg'
@@ -54,7 +55,7 @@ function Header() {
                     <p className="text-white text-lg px-2 z-20 pointer-events-none">{username}</p>
 
                     <div className="opacity-0 hover:opacity-100 pt-12 px-4 absolute w-full min-w-36 z-10 -top-2 right-0 flex flex-col p-2 items-center bg-zinc-800 rounded">
-                        <button className="px-8 w-full py-2 m-2 text-xl rounded-lg text-white bg-peach hover:bg-peach-dark" onClick={logout}>Logout</button>
+                        <motion.button whileTap={{ scale: 0.9 }} className="px-8 w-full py-2 m-2 text-xl rounded-lg text-white bg-peach hover:bg-peach-dark" onClick={logout}>Logout</motion.button>
                     </div>
                 </div>
                 </>

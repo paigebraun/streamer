@@ -8,24 +8,23 @@ const strategy = new LocalStrategy(
   async function (username, password, done) {
     try {
       const user = await User.findOne({ username: username });
-      console.log('localstrat', username, password);
+
       if (!user) {
-        return done(null, false, { message: 'Incorrect username' });
+        return done(null, false, { message: 'Incorrect username or password' });
       }
 
       const isMatch = user.checkPassword(password);
 
       if (!isMatch) {
-        return done(null, false, { message: 'Incorrect password' });
+        return done(null, false, { message: 'Incorrect username or password' });
       }
-      console.log('localstrat', user);
+
       return done(null, user);
     } catch (error) {
-      console.log('localstraterror', error);
+      console.error('localstraterror', error);
       return done(error);
     }
   }
 );
 
 module.exports = strategy;
-
