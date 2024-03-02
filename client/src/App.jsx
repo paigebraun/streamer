@@ -3,11 +3,12 @@ import { useEffect } from 'react'
 
 import { useUser } from './components/UserContext';
 
-import Home from './pages/Home'
-import Details from './pages/Details'
-import Results from './pages/Results'
-import Login from './pages/Login'
-import SignUp from './pages/SignUp'
+import Home from './pages/Home';
+import Details from './pages/Details';
+import Results from './pages/Results';
+import Login from './pages/Login';
+import SignUp from './pages/SignUp';
+import UserProfile from './pages/UserProfile';
 
 
 function App() {
@@ -65,6 +66,7 @@ function App() {
         </Route>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path="/user/:id" element={<UserProfile />} />
       </Routes>
     </>
   )

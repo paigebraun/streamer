@@ -35,12 +35,12 @@ const Popular = React.memo(() => {
 
     return (
         <>
-            <h1 className="my-5 text-white text-4xl font-bold">Trending Movies</h1>
+            <h1 className="my-5 text-white text-3xl font-bold">Trending Movies</h1>
             <div className="flex overflow-x-auto">
-                <div className="flex flex-nowrap items-start">
+                <div className="flex flex-nowrap items-start gap-4">
                     {popularMovies.map((movie) => (
                         <Link to={`/${movie.title.replace(/[&:']/g,'').replace(/-/g,'').replace(/[^a-zA-Z0-9]/g, '-').toLowerCase()}`} state={movie} key={movie.id}>
-                            <button className="relative max-w-[150px] w-max mr-5 text-left">
+                            <button className="relative max-w-[150px] w-max text-left">
                                 <div className="relative h-56 rounded overflow-hidden">
                                     <img className="h-56 rounded hover:scale-110 transition duration-150 ease-out hover:ease-in" src={`https://image.tmdb.org/t/p/original/${movie.poster_path}`}></img>
                                 </div>
@@ -51,12 +51,12 @@ const Popular = React.memo(() => {
                 </div>
             </div>
 
-            <h1 className="my-5 text-white text-4xl font-bold">Trending TV Shows</h1>
+            <h1 className="my-5 text-white text-3xl font-bold">Trending TV Shows</h1>
             <div className="flex overflow-x-scroll hide-scroll-bar">
-                <div className="flex flex-nowrap items-start">
+                <div className="flex flex-nowrap items-start gap-4">
                     {popularTV.map((series) => (
                         <Link to={`/${series.name.replace(/[&:']/g,'').replace(/-/g,'').replace(/[^a-zA-Z0-9]/g, '-').toLowerCase()}`} state={series} key={series.id}>
-                            <button className="relative max-w-[150px] w-max mr-5 text-left">
+                            <button className="relative max-w-[150px] w-max text-left">
                                 <div className="relative h-56 rounded overflow-hidden">
                                     <img className="h-56 rounded hover:scale-110 transition duration-150 ease-out hover:ease-in" src={`https://image.tmdb.org/t/p/original/${series.poster_path}`}></img>
                                 </div>

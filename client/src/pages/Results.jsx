@@ -45,7 +45,7 @@ function Results() {
             {searchResults.map((result) => {
                 return result.poster_path !== null && result.overview != "" && result.hasOwnProperty("name") ?
                 <Link to={`/${result.name.replace(/[&:']/g,'').replace(/-/g,'').replace(/[^a-zA-Z0-9]/g, '-').toLowerCase()}`} state={result} key={result.id}>
-                    <button className="flex bg-zinc-800 p-4 rounded text-left items-center w-full">
+                    <button className="flex bg-zinc-800 p-4 rounded text-left items-center w-full hover:bg-zinc-600">
                         <img className="h-fit w-fit rounded max-h-48" src={`https://image.tmdb.org/t/p/original/${result.poster_path}`}></img>
                         <div className="flex ml-8 flex-col">
                             <h1 className="text-white text-3xl font-bold">{result.name}</h1>
@@ -63,7 +63,7 @@ function Results() {
             {searchResults.map((result) => {
                 return result.poster_path !== null && result.overview != "" && result.hasOwnProperty("title") ?
                 <Link to={`/${result.title.replace(/[&:']/g,'').replace(/-/g,'').replace(/[^a-zA-Z0-9]/g, '-').toLowerCase()}`} state={result} key={result.id}>
-                    <button className="flex bg-zinc-800 p-4 rounded text-left items-center w-full">
+                    <button className="flex bg-zinc-800 p-4 rounded text-left items-center w-full hover:bg-zinc-600">
                         <img className="h-fit w-fit rounded max-h-48" src={`https://image.tmdb.org/t/p/original/${result.poster_path}`}></img>
                         <div className="flex ml-8 flex-col">
                             <h1 className="text-white text-3xl font-bold">{result.title}</h1>

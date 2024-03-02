@@ -5,13 +5,13 @@ import Popular from '../components/Popular'
 import Watchlist from '../components/Watchlist'
 
 function Home() {
-
+    const currentPage = "Home";
     return (
       <>
       <Header />
       <Featured />
       <Popular />
-      <Watchlist />
+      <Watchlist currentPage={currentPage}/>
       </>
     )
   }
