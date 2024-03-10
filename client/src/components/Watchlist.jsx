@@ -64,7 +64,7 @@ function Watchlist( {currentPage }) {
     return (
         <>
             <h1 className="my-5 text-white text-3xl font-bold">Watchlist</h1>
-            {currentPage === 'userProfile' && (
+            {(currentPage === 'userProfile' && sortedWatchlist.length !== 0) && (
                 <div className="flex items-center gap-2 mb-4">
                     <p className="text-white">Sort By:</p>
                     <div className="relative">
@@ -79,7 +79,7 @@ function Watchlist( {currentPage }) {
                     </div>
                 </div>
             )}
-            <div className={`flex items-center ${sortedWatchlist.length !== 0 ? 'justify-start' : 'justify-center'} pb-8`}>
+            <div className={`flex items-center ${((sortedWatchlist.length !== 0) || (currentPage === 'userProfile')) ? 'justify-start': 'justify-center'} pb-8`}>
             {loggedIn ? (
             sortedWatchlist.length !== 0 ? (
                 <div className="flex overflow-x-auto">
@@ -101,7 +101,7 @@ function Watchlist( {currentPage }) {
                 </div>
                 </div>
             ) : (
-                <p className="text-white font-bold text-2xl mt-10 mb-32">Add movies or series to your watchlist, and they will show up here.</p>
+                <p className={`text-white text-2xl ${(currentPage === 'userProfile') ? 'font-normal' : 'font-bold'} mt-10 mb-32`}>Add movies or series to your watchlist, and they will show up here.</p>
             )
             ) : (
             <p className="text-white font-bold text-2xl mt-10 mb-32">
