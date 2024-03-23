@@ -15,7 +15,7 @@ function Watchlist({ currentPage }) {
     const getWatchlist = async () => {
         try {
             const response = await fetch(
-                "http://localhost:3000/user/watchlist",
+                "https://streamer-backend-wi3f.onrender.com/user/watchlist",
                 {
                     method: "GET",
                     credentials: "include",

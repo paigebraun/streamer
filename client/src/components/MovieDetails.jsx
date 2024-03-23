@@ -73,7 +73,7 @@ function MovieDetails() {
         async function fetchData() {
             try {
                 const response = await fetch(
-                    `http://localhost:3000/movie/${movie.id}`
+                    `https://streamer-backend-wi3f.onrender.com/movie/${movie.id}`
                 );
                 // Set movie details
                 const data = await response.json();
@@ -104,7 +104,7 @@ function MovieDetails() {
 
             try {
                 const response = await fetch(
-                    "http://localhost:3000/user/watchlist/add",
+                    "https://streamer-backend-wi3f.onrender.com/user/watchlist/add",
                     {
                         method: "POST",
                         headers: {
@@ -144,7 +144,7 @@ function MovieDetails() {
     const removeFromWatchlist = async () => {
         try {
             const response = await fetch(
-                "http://localhost:3000/user/watchlist/remove",
+                "https://streamer-backend-wi3f.onrender.com/user/watchlist/remove",
                 {
                     method: "POST",
                     headers: {

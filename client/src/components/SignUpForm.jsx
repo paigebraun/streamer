@@ -24,7 +24,7 @@ function SignUpForm() {
         e.preventDefault();
 
         // Request to server to add a new username/password
-        fetch("http://localhost:3000/user", {
+        fetch("https://streamer-backend-wi3f.onrender.com/user", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

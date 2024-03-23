@@ -30,10 +30,13 @@ function Header() {
         event.preventDefault();
 
         try {
-            const response = await fetch("http://localhost:3000/user/logout", {
-                method: "POST",
-                credentials: "include",
-            });
+            const response = await fetch(
+                "https://streamer-backend-wi3f.onrender.com/user/logout",
+                {
+                    method: "POST",
+                    credentials: "include",
+                }
+            );
 
             if (response.status === 200) {
                 const data = await response.json();

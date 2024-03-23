@@ -31,5 +31,5 @@
     "tailwindcss": "^3.3.3",
     "vite": "^4.4.5"
   },
-  "proxy": "http://localhost:3000"
+  "proxy": "https://streamer-backend-wi3f.onrender.com"
 }

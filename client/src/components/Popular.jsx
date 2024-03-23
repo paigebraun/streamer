@@ -10,7 +10,7 @@ const Popular = React.memo(() => {
         const fetchPopularMovies = async () => {
             try {
                 const response = await fetch(
-                    "http://localhost:3000/popular/movies"
+                    "https://streamer-backend-wi3f.onrender.com/popular/movies"
                 );
                 const data = await response.json();
                 setPopularMovies(data);
@@ -22,7 +22,7 @@ const Popular = React.memo(() => {
         const fetchPopularTV = async () => {
             try {
                 const response = await fetch(
-                    "http://localhost:3000/popular/tv"
+                    "https://streamer-backend-wi3f.onrender.com/popular/tv"
                 );
                 const data = await response.json();
                 setPopularTV(data);

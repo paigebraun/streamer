@@ -32,7 +32,7 @@ function LoginForm() {
         console.log("Login request body:", state);
 
         // Request to server to login
-        fetch("http://localhost:3000/user/login", {
+        fetch("https://streamer-backend-wi3f.onrender.com/user/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

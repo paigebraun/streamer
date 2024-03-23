@@ -20,10 +20,13 @@ function App() {
     // Check to see if a user is already logged in
     const getUser = async () => {
         try {
-            const response = await fetch("http://localhost:3000/user/", {
-                method: "GET",
-                credentials: "include",
-            });
+            const response = await fetch(
+                "https://streamer-backend-wi3f.onrender.com/user/",
+                {
+                    method: "GET",
+                    credentials: "include",
+                }
+            );
 
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
