@@ -27,7 +27,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Enable CORS for all routes
 app.use(cors({
-	origin: 'http://localhost:5173',
+	origin: 'https://streamer-tqxz.onrender.com',
 	methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
 	credentials: true,
   }));
