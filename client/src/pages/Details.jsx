@@ -1,34 +1,34 @@
-import { useLocation } from "react-router-dom"
+import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
 
-//import components
+// Import components
 import Header from "../components/Header";
 import SeriesDetails from "../components/SeriesDetails";
 import MovieDetails from "../components/MovieDetails";
 
 function Details() {
     useEffect(() => {
-        window.scrollTo(0, 0)
-      }, [])
-    //Get movie or TV show from state of popular list
+        window.scrollTo(0, 0);
+    }, []);
+    // Get movie or TV show from state of popular list
     const location = useLocation();
-    if (location.state.hasOwnProperty('name')) {
-        //It's a TV show
+    if (location.state.hasOwnProperty("name")) {
+        // It's a TV show
         return (
             <>
-            <Header />
-            <SeriesDetails />
+                <Header />
+                <SeriesDetails />
             </>
-        )
+        );
     } else {
-        //It's a movie
+        // It's a movie
         return (
             <>
-            <Header />
-            <MovieDetails />
+                <Header />
+                <MovieDetails />
             </>
-        )
+        );
     }
 }
 
-export default Details
+export default Details;

@@ -22,7 +22,7 @@ router.post('/', async (req, res) => {
     console.log('username:', username);
 
     try {
-        // Add a check for an empty or whitespace-only username
+        // Check for an empty or whitespace-only username
         if (!username || username.trim() === '') {
             return res.status(400).json({
                 error: 'Username cannot be empty',
@@ -37,7 +37,7 @@ router.post('/', async (req, res) => {
             });
         }
 
-        // Add a check for an empty password
+        // Check for an empty password
         if (!password || password.trim() === '') {
             return res.status(400).json({
                 error: 'Password cannot be empty',
@@ -74,7 +74,7 @@ router.post('/login', (req, res) => {
           return res.status(401).json({ error: info.message || 'Login failed' });
         }
   
-        // Fetch the complete user object, including the watchlist
+        // Fetch the complete user object
         const updatedUser = await User.findById(user._id);
   
         req.logIn(updatedUser, function (error) {
@@ -82,7 +82,7 @@ router.post('/login', (req, res) => {
             console.error('Error logging in:', error);
             return res.status(500).json({ error: 'Internal server error' });
           }
-          // Send the user object with the watchlist in the response
+          // Send the user object in the response
           res.json(updatedUser);
         });
       } catch (error) {
@@ -174,7 +174,7 @@ router.post('/watchlist/add', async (req, res) => {
                 if (!error) {
                     return res.status(200).json({
                         message: 'Item added to watchlist successfully',
-                        watchlist: updatedUser.watchlist, // Include the updated watchlist in the response
+                        watchlist: updatedUser.watchlist,
                     });
                 } else {
                     console.error(error);
@@ -220,7 +220,7 @@ router.post('/watchlist/remove', async (req, res) => {
                     if (!error) {
                         return res.status(200).json({
                             message: 'Item removed from watchlist successfully',
-                            watchlist: updatedUser.watchlist, // Include the updated watchlist in the response
+                            watchlist: updatedUser.watchlist,
                         });
                     } else {
                         console.error(error);

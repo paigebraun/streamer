@@ -1,6 +1,4 @@
-if (process.env.NODE_ENV !== 'production') {
-	require('dotenv').config()
-}
+require('dotenv').config();
 
 const express = require("express");
 const session = require("express-session");
@@ -12,7 +10,10 @@ const cors = require("cors");
 const app = express();
 
 // Route requires
-const user = require('./routes/user')
+const user = require('./routes/user');
+const movieRouter = require('./routes/movieRouter');
+const seriesRouter = require('./routes/seriesRouter');
+const popular = require('./routes/popular');
 
 // Connect to database
 const mongoDb = process.env.DATABASE_URL;
@@ -55,7 +56,10 @@ app.use(passport.session())
 app.options('/user/login', cors());
 
 // Use routes
-app.use('/user', user)
+app.use('/user', user);
+app.use('/movie', movieRouter);
+app.use('/series', seriesRouter);
+app.use('/popular', popular);
 
 
 app.listen(3000, () => console.log("app listening on port 3000!"));

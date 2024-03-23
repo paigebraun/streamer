@@ -1,13 +1,12 @@
-//import components
-import SignUpForm from "../components/SignUpForm"
+// Import components
+import SignUpForm from "../components/SignUpForm";
 
 function SignUp() {
-
     return (
-      <>
-        <SignUpForm />
-      </>
-    )
-  }
+        <>
+            <SignUpForm />
+        </>
+    );
+}
 
-export default SignUp
+export default SignUp;
