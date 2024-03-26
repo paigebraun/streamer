@@ -14,6 +14,7 @@ const user = require('./routes/user');
 const movieRouter = require('./routes/movieRouter');
 const seriesRouter = require('./routes/seriesRouter');
 const popular = require('./routes/popular');
+const searchResults = require('./routes/searchResults');
 
 // Connect to database
 const mongoDb = process.env.DATABASE_URL;
@@ -37,7 +38,7 @@ app.use(
 	session({
 		secret: process.env.SESSION_SECRET,
 		resave: false,
-		saveUninitialized: true,
+		saveUninitialized: false,
 		store: MongoStore.create({
 			mongoUrl: process.env.DATABASE_URL,
 		  }),
@@ -60,6 +61,7 @@ app.use('/user', user);
 app.use('/movie', movieRouter);
 app.use('/series', seriesRouter);
 app.use('/popular', popular);
+app.use('/search', searchResults);
 
 
 app.listen(3000, () => console.log("app listening on port 3000!"));

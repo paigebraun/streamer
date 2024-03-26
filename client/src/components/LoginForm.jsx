@@ -26,6 +26,11 @@ function LoginForm() {
 
     const navigate = useNavigate();
 
+    function routeChange() {
+        let path = "/signup";
+        navigate(path);
+    }
+
     function handleSubmit(e) {
         e.preventDefault();
         console.log("handleSubmit");
@@ -136,11 +141,11 @@ function LoginForm() {
                         </motion.button>
                         <p className="text-sm font-light text-zinc-500">
                             Don't have an account yet?{" "}
-                            <a
-                                href="/signup"
+                            <button
+                                onClick={routeChange}
                                 className="font-medium text-zinc-400 hover:underline">
                                 Sign Up
-                            </a>
+                            </button>
                         </p>
                     </form>
                 </div>

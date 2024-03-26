@@ -13,26 +13,22 @@ function Results() {
     }, []);
 
     useEffect(() => {
-        const options = {
-            method: "GET",
-            headers: {
-                accept: "application/json",
-                Authorization:
-                    "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJiM2RmYjVlYTYzY2UxZmVkNGE0NzJhM2ZkMTU1NjRlNCIsInN1YiI6IjY1MWI4M2UyMjIzYThiMDBlMWZiMGEyMyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.kO5DWYSmhfdU4rh4LqsVpvYeEbism1JjuZzZ4u6_e9o",
-            },
+        const fetchSearchData = async () => {
+            try {
+                const response = await fetch(
+                    `https://streamer-backend-wi3f.onrender.com/search?query=${id}`,
+                    {
+                        method: "GET",
+                        credentials: "include",
+                    }
+                );
+                const data = await response.json();
+                setSearchResults(data);
+            } catch (error) {
+                console.error("Error fetching search results:", error);
+            }
         };
 
-        async function fetchSearchData() {
-            await fetch(
-                `https://api.themoviedb.org/3/search/multi?query=${id}&include_adult=false&language=en-US&page=1`,
-                options
-            )
-                .then((response) => response.json())
-                .then((response) => setSearchResults(response.results))
-                .catch((err) => console.error(err));
-        }
-
-        console.log(searchResults);
         fetchSearchData();
     }, [id]);
 
